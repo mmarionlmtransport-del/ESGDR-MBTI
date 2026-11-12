@@ -1,0 +1,182 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>ESGDR maîtrise R1</title><style>
+
+@font-face{font-family:"IS";src:url(../fonts/IS-Regular.woff2) format("woff2");font-style:normal}
+@font-face{font-family:"IS";src:url(../fonts/IS-Italic.woff2) format("woff2");font-style:italic}
+@page{size:A4;margin:0}
+:root{--bg:#F5F1E8;--navy:#14213D;--gold:#B8862F;--goldbar:#C9A15E;--goldpale:#DCC497;--grey:#7A808A;--rule:#D8D0BD;--muted:#5B6270}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--navy);font-family:Inter,sans-serif}
+.page{width:210mm;height:297mm;padding:22mm 18mm 16mm;position:relative;page-break-after:always;overflow:hidden;background:var(--bg)}
+.page:last-child{page-break-after:auto}
+.mono{font-family:"JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;font-size:7.6pt;color:var(--muted)}
+.head{display:flex;justify-content:space-between;padding-bottom:9px;border-bottom:1.5px solid var(--navy)}
+h1{font-family:IS;font-weight:400;font-size:62pt;line-height:.98;margin-top:26px;letter-spacing:-.01em}
+h1 em{color:var(--gold)}
+.sub{font-size:10.5pt;color:#3d4556;margin-top:12px}
+.matches{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:22px}
+.m{border-top:1.5px solid var(--navy);padding-top:7px;position:relative}
+.m .mono{font-size:6.6pt;letter-spacing:.08em}
+.m b{display:block;font-size:10pt;margin-top:3px}
+.m .sc{font-family:IS;font-size:28pt;line-height:1.05}
+.m .sc span{color:var(--grey);font-size:20pt;padding:0 2px}
+.bd{position:absolute;right:0;top:6px;width:17px;height:17px;border-radius:50%;font:600 6.8pt Inter;display:flex;align-items:center;justify-content:center}
+.V{background:var(--navy);color:#fff}.N{border:1px solid var(--navy)}.D{border:1px solid var(--gold);color:var(--gold)}
+.xg{display:grid;grid-template-columns:1fr 1fr;margin-top:28px;padding-bottom:16px;border-bottom:1px solid var(--rule)}
+.big{font-family:IS;font-size:62pt;line-height:1;margin-top:10px}
+.big .sl{color:var(--rule);font-size:30pt;padding:0 6px}.big .g{color:var(--gold)}
+.leg{font-size:7.6pt;color:var(--muted);margin-top:8px;font-family:"JetBrains Mono"}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);row-gap:18px;margin-top:16px;padding-bottom:16px;border-bottom:1px solid var(--rule)}
+.kpi .v{font-family:IS;font-size:34pt;line-height:1.15;margin-top:4px}
+.kpi .v small{font-size:17pt;color:var(--grey)}
+.kpi .s{font-family:"JetBrains Mono";font-size:6.8pt;letter-spacing:.2em;color:var(--muted)}
+.bars{margin-top:16px}
+.row{display:grid;grid-template-columns:82px 40px 1fr 2px 1fr;align-items:center;height:30px;font-size:8pt}
+.row .t{font-weight:600}.row .r{font-family:"JetBrains Mono";font-size:7.5pt}
+.side{white-space:nowrap;display:flex;align-items:center;gap:6px;height:100%;font-family:"JetBrains Mono";font-size:7pt;color:#3d4556}
+.L{justify-content:flex-end}.bar{height:18px}
+.axis{background:var(--navy);height:100%}
+.foot{position:absolute;left:18mm;right:18mm;bottom:12mm;border-top:1px solid var(--rule);padding-top:8px;display:flex;justify-content:space-between}
+.foot .mono{color:#b5ae9e;font-size:6.8pt}
+/* page 2 */
+h2{font-family:IS;font-weight:400;font-size:46pt;margin-top:20px;line-height:1}
+h2 em{color:var(--gold)}
+.charts{display:grid;grid-template-columns:1fr 1fr;column-gap:40px;row-gap:16px;margin-top:18px}
+.ch h4{font-size:8pt;font-weight:700;margin-bottom:6px}
+.lr{display:grid;grid-template-columns:62px 1fr 52px;align-items:center;height:18px;font-size:6.6pt;color:var(--muted)}
+.track{position:relative;height:100%}
+.track .base{position:absolute;left:0;right:0;top:50%;height:1px;background:#c9ccd3}
+.track .fill{position:absolute;left:0;top:50%;height:1.5px;background:var(--navy);transform:translateY(-.25px)}
+.track .pt{position:absolute;top:50%;width:8px;height:8px;border-radius:50%;background:var(--navy);transform:translate(-50%,-50%)}
+.track .pt.hl{background:var(--gold)}
+.avg{position:absolute;top:-4px;bottom:-4px;border-left:1px dashed var(--gold)}
+.lr .val{font-family:"JetBrains Mono";text-align:right;color:var(--navy);font-size:7pt}
+.sec{margin-top:16px;border-top:1px solid var(--rule);padding-top:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;column-gap:40px;row-gap:10px;margin-top:8px}
+.c{border-left:2px solid var(--gold);padding-left:12px}
+.c h5{font-family:IS;font-weight:400;font-size:17pt;line-height:1.1}
+.c p{font-size:8.4pt;color:#3d4556;line-height:1.4;margin-top:3px}
+.note{font-family:"JetBrains Mono";font-size:6.6pt;color:var(--muted);margin-top:10px;letter-spacing:.04em}
+
+.hero{display:grid;grid-template-columns:1.05fr 1fr;column-gap:36px;margin-top:26px;padding-bottom:16px;border-bottom:1px solid var(--rule)}
+.donutwrap{display:flex;align-items:center;gap:22px;margin-top:8px}
+.split{margin-top:12px}
+.split .lab{display:flex;justify-content:space-between;font-family:"JetBrains Mono";font-size:7pt;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.split .sb{display:flex;height:22px;margin-top:5px}
+.split .sb div{display:flex;align-items:center;padding:0 8px;font-family:"JetBrains Mono";font-size:7.5pt}
+.split .us{background:var(--navy);color:#fff}.split .th{background:var(--goldbar);color:var(--navy);justify-content:flex-end}
+.m .po{font-family:"JetBrains Mono";font-size:6.6pt;color:var(--gold);letter-spacing:.06em;margin-top:2px}
+.row{grid-template-columns:82px 40px 1fr 2px 1fr 44px !important}
+.diff{font-family:"JetBrains Mono";font-size:7.5pt;text-align:right;color:var(--navy);font-weight:600}
+.db .fill{display:none}
+.seg{position:absolute;top:50%;height:2px;background:var(--navy);transform:translateY(-1px)}
+.pt.g{background:var(--goldbar)}
+
+.page .row{height:26px}.hero{margin-top:18px!important;padding-bottom:12px!important}.kpis{margin-top:12px!important;row-gap:12px!important;padding-bottom:12px!important}.matches{margin-top:16px!important}
+</style></head><body>
+<section class="page">
+  <div class="head"><span class="mono">ES Grau-du-Roi · Seniors R1</span><span class="mono">Maîtrise · 6 matchs de championnat · 2026-2027</span></div>
+  <h1 style="font-size:56pt;margin-top:18px">Le ballon<br><em>est à nous.</em></h1>
+  <p class="sub">65 % de possession. 14,3 xG créés contre 4,7. Plus dangereux que l’adversaire à chaque match.</p>
+
+  <div class="matches" id="matches"></div>
+
+  <div class="hero">
+    <div>
+      <div class="mono">Possession moyenne</div>
+      <div class="donutwrap">
+        <svg viewBox="0 0 120 120" width="118" height="118">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#C9A15E" stroke-width="13"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#14213D" stroke-width="13" stroke-dasharray="204.2 314.16" transform="rotate(-90 60 60)"/>
+        </svg>
+        <div>
+          <div class="big" style="margin-top:0">65<span class="sl" style="color:var(--grey);font-size:28pt">%</span></div>
+          <div class="leg">5 matchs sur 6 à 65 % ou plus</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="mono">Le déséquilibre · nous / eux</div>
+      <div class="split"><div class="lab"><span>Part des tirs</span><span>14,5 / 6,3 par match</span></div>
+        <div class="sb"><div class="us" style="width:70%">70 %</div><div class="th" style="width:30%">30 %</div></div></div>
+      <div class="split"><div class="lab"><span>Part des xG</span><span>14,3 / 4,7</span></div>
+        <div class="sb"><div class="us" style="width:75%">75 %</div><div class="th" style="width:25%">25 %</div></div></div>
+      <div class="split"><div class="lab"><span>Possession</span><span>moyenne 6 matchs</span></div>
+        <div class="sb"><div class="us" style="width:65%">65 %</div><div class="th" style="width:35%">35 %</div></div></div>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="mono">xG créés</div><div class="v">14,3 <small>/ 4,7</small></div><div class="s">3× l’adversaire</div></div>
+    <div class="kpi"><div class="mono">xG par match</div><div class="v">2,4 <small>/ 0,8</small></div></div>
+    <div class="kpi"><div class="mono">Tirs par match</div><div class="v">14,5 <small>/ 6,3</small></div><div class="s">2,3× l’adversaire</div></div>
+    <div class="kpi"><div class="mono">xG par tir</div><div class="v">0,16</div></div>
+    <div class="kpi"><div class="mono">Passes réussies</div><div class="v">74 <small>%</small></div></div>
+    <div class="kpi"><div class="mono">PPDA approché</div><div class="v">4,1</div><div class="s">bas = on presse</div></div>
+    <div class="kpi"><div class="mono">Récupéré en 8 s</div><div class="v">49 <small>%</small></div><div class="s">des pertes</div></div>
+    <div class="kpi"><div class="mono">Points</div><div class="v">13</div><div class="s">4 V · 1 N · 1 D</div></div>
+  </div>
+
+  <div class="bars" style="margin-top:12px">
+    <div class="mono" style="margin-bottom:8px;display:flex;justify-content:space-between"><span>Occasions · xG par match · eux ← → nous</span><span>Écart</span></div>
+    <div id="bars"></div>
+    <p class="note">6 matchs sur 6 avec plus d’xG que l’adversaire · ≈ USSA : données approximatives (barres grisées).</p>
+  </div>
+  <div class="foot"><span></span><span class="mono">01 / 02</span></div>
+</section>
+
+<section class="page">
+  <div class="head"><span class="mono">ES Grau-du-Roi · Seniors R1</span><span class="mono">Match par match</span></div>
+  <h2>On installe. <em>On déséquilibre.</em></h2>
+  <p class="sub">Le ballon d’abord, l’occasion ensuite. Et quand on le perd, on le reprend vite.</p>
+  <div class="charts" id="charts"></div>
+
+  <div class="sec">
+    <div class="mono">Constats</div>
+    <div class="grid2">
+      <div class="c"><h5>Maîtrise</h5><p>65 % de possession en moyenne, 70 % contre Revel et Béziers. Seul l’ESCM nous a pris le ballon (49 %), et on gagne quand même 3-1.</p></div>
+      <div class="c"><h5>Déséquilibre</h5><p>3 fois plus d’xG que l’adversaire (14,3 contre 4,7) et 70 % des tirs. Contre Béziers, 3,1 xG créés pour 0,6 concédé.</p></div>
+      <div class="c"><h5>Occasions</h5><p>14,5 tirs et 2,4 xG par match. Cugnaux (2,8 xG) et l’USSA (3,3 xG) : nos deux plus gros volumes de la saison.</p></div>
+      <div class="c"><h5>Reprise du ballon</h5><p>PPDA de 4,1 et 49 % des pertes récupérées en moins de 8 s : l’adversaire n’a pas le temps de sortir, le ballon nous revient.</p></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="mono">Prochaine étape</div>
+    <div class="grid2">
+      <div class="c"><h5>Convertir la domination</h5><p>10 buts pour 14,3 xG. Les occasions sont là : tir en 1-2 touches dans la surface, centre en retrait, un joueur qui suit chaque frappe.</p></div>
+      <div class="c"><h5>Garder le ballon après la récupération</h5><p>Seconds ballons à 36 %. Sentinelle sous la trajectoire, centraux qui montent d’un pas, 1re passe vers l’avant. Objectif : 50 %.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="mono" style="letter-spacing:.06em">Ligne pointillée : moyenne des 6 matchs</span><span class="mono">02 / 02</span></div>
+</section>
+
+<script>
+const M=[
+ {d:"05/09 · Ext.",t:"Revel",s:[1,0],r:"V",xg:2.1,xga:0.2,po:70},
+ {d:"19/09 · Dom.",t:"ESCM",s:[3,1],r:"V",xg:1.4,xga:0.6,po:49},
+ {d:"03/10 · Ext.",t:"Cugnaux",s:[0,0],r:"N",xg:2.8,xga:0.8,po:65},
+ {d:"17/10 · Dom.",t:"Béziers",s:[2,1],r:"V",xg:3.1,xga:0.6,po:70},
+ {d:"01/11 · Ext.",t:"USSA ≈",s:[2,3],r:"D",xg:3.3,xga:1.7,po:68,approx:1},
+ {d:"11/11 · Ext.",t:"Frontignan",s:[2,1],r:"V",xg:1.6,xga:0.8,po:66}];
+const f=(x,n=1)=>x.toFixed(n).replace('.',',');
+document.getElementById('matches').innerHTML=M.map(m=>`<div class="m"><div class="mono">${m.d}</div><span class="bd ${m.r}">${m.r}</span><b>${m.t}</b><div class="sc">${m.s[0]}<span>–</span>${m.s[1]}</div><div class="po">${m.po} % poss.</div></div>`).join('');
+const sc=48, but=n=>n+(n>1?' buts':' but');
+document.getElementById('bars').innerHTML=M.map(m=>`<div class="row"><span class="t">${m.t}</span><span class="r">${m.s[0]}-${m.s[1]}</span>
+ <div class="side L">${f(m.xga)} xG<div class="bar" style="width:${m.xga*sc}px;background:${m.approx?'var(--goldpale)':'var(--goldbar)'}"></div></div>
+ <div class="axis"></div>
+ <div class="side"><div class="bar" style="width:${m.xg*sc}px;background:${m.approx?'#7d828c':'var(--navy)'}"></div>${f(m.xg)} xG</div>
+ <span class="diff">+${f(m.xg-m.xga)}</span></div>`).join('');
+const T=["Revel","ESCM","Cugnaux","Béziers","USSA","Frontignan"];
+const C=[
+ {h:"Possession",v:[70,49,65,70,68,66],u:" %",max:80,n:0},
+ {h:"xG créés / concédés",dumb:1,v:[2.1,1.4,2.8,3.1,3.3,1.6],w:[0.2,0.6,0.8,0.6,1.7,0.8],max:3.5,n:1},
+ {h:"Écart d’xG (nous − eux)",v:[1.9,0.8,2.0,2.5,1.6,0.8],u:"",max:3,n:1,pre:"+"},
+ {h:"PPDA approché (bas = on presse)",v:[3.2,5.4,4.1,3.2,3.8,4.7],u:"",max:6,n:1},
+ {h:"Pertes récupérées en 8 s",v:[50,42,58,50,48,44],u:" %",max:75,n:0},
+ {h:"Hauteur de récupération (m)",v:[37.5,38.4,35.1,39.3,46.0,41.5],u:" m",max:55,n:1}];
+document.getElementById('charts').innerHTML=C.map(c=>{const p=x=>x/c.max*100;
+ if(c.dumb) return `<div class="ch"><h4>${c.h}</h4>`+c.v.map((x,i)=>`<div class="lr db"><span>${T[i]}</span><div class="track"><div class="base"></div><div class="seg" style="left:${p(c.w[i])}%;width:${p(x)-p(c.w[i])}%"></div><div class="pt g" style="left:${p(c.w[i])}%"></div><div class="pt" style="left:${p(x)}%"></div></div><span class="val">${f(x)} / ${f(c.w[i])}</span></div>`).join('')+`</div>`;
+ const av=c.v.reduce((a,b)=>a+b)/6;
+ return `<div class="ch"><h4>${c.h}</h4>`+c.v.map((x,i)=>`<div class="lr"><span>${T[i]}</span><div class="track"><div class="base"></div><div class="fill" style="width:${p(x)}%"></div><div class="avg" style="left:${p(av)}%"></div><div class="pt" style="left:${p(x)}%"></div></div><span class="val">${c.pre||''}${f(x,c.n)}${c.u}</span></div>`).join('')+`</div>`}).join('');
+</script>
+</body></html>
