@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>ESGDR spot</title>
+<style>
+@font-face{font-family:"IS";src:url(../fonts/IS-Regular.woff2) format("woff2");font-style:normal}
+@font-face{font-family:"IS";src:url(../fonts/IS-Italic.woff2) format("woff2");font-style:italic}
+:root{--ink:#070B16;--cream:#F3EEE3;--gold:#C9A15E;--goldd:#9E7A3C;--mut:#7F8698}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--ink)}
+#stage{position:absolute;inset:0;transform-origin:50% 50%}
+.l{position:absolute;left:0;right:0;opacity:0;will-change:transform,opacity}
+.mono{font-family:"JetBrains Mono",monospace;text-transform:uppercase;letter-spacing:.3em;color:var(--mut);font-size:26px}
+.serif{font-family:IS;font-weight:400;color:var(--cream);line-height:.9}
+.gold{color:var(--gold)}
+.mask{overflow:hidden;display:block;padding-bottom:.08em}
+.mask>span{display:block}
+.c{text-align:center}
+.pad{padding:0 90px}
+#grain{position:absolute;inset:0;width:1080px;height:1920px;opacity:.11;mix-blend-mode:screen;pointer-events:none}
+#vig{position:absolute;inset:0;background:radial-gradient(ellipse 75% 60% at 50% 48%,transparent 40%,rgba(0,0,0,.75) 100%);pointer-events:none}
+#glow{position:absolute;width:1400px;height:1400px;border-radius:50%;background:radial-gradient(circle,rgba(201,161,94,.16),transparent 62%);left:-160px;top:260px;pointer-events:none}
+#flash{position:absolute;inset:0;background:var(--cream);opacity:0;pointer-events:none}
+#bars{position:absolute;left:0;right:0;height:0;background:#000;pointer-events:none}
+.hair{position:absolute;height:2px;background:var(--gold);left:90px}
+.card .team{font-family:Inter;font-weight:800;font-size:96px;letter-spacing:.04em;text-transform:uppercase;color:var(--cream)}
+.card .score{font-family:IS;font-size:470px;color:var(--cream);line-height:.85;letter-spacing:-.02em}
+.card .score i{font-style:normal;color:var(--goldd);padding:0 .06em}
+.res{display:inline-flex;width:110px;height:110px;border-radius:50%;align-items:center;justify-content:center;font:700 52px Inter;border:3px solid var(--gold);color:var(--gold)}
+.res.V{background:var(--gold);color:var(--ink)}
+.res.N{border-color:var(--cream);color:var(--cream)}
+.stat .n{font-family:IS;font-size:400px;color:var(--cream);line-height:.85}
+.stat .n small{font-size:160px;color:var(--gold)}
+.track{position:relative;height:6px;background:rgba(243,238,227,.14);margin:0 90px}
+.fillb{position:absolute;left:0;top:0;bottom:0;background:var(--gold)}
+.tgt{position:absolute;top:-40px;bottom:-40px;width:3px;background:var(--cream)}
+</style></head>
+<body>
+<div id="stage">
+ <div id="glow"></div>
+
+ <!-- S1 intro -->
+ <div class="l c" id="s1a" style="top:860px"><div class="mono" id="s1t" style="font-size:34px;color:var(--cream)">ES Grau-du-Roi</div></div>
+ <div class="hair" id="s1h" style="top:950px;width:0"></div>
+ <div class="l c" id="s1b" style="top:990px"><div class="mono">Seniors R1 · Saison 2026–2027</div></div>
+
+ <!-- S2 On domine -->
+ <div class="l pad" id="s2" style="top:640px">
+   <div class="mono" id="s2k" style="margin-bottom:50px">6 matchs · 13 points</div>
+   <span class="mask serif" style="font-size:250px"><span id="s2w">On domine.</span></span>
+ </div>
+
+ <!-- S3 On ne tue pas -->
+ <div class="l pad" id="s3" style="top:620px">
+   <span class="mask serif gold" style="font-size:270px;font-style:italic"><span id="s3a">On ne</span></span>
+   <span class="mask serif gold" style="font-size:270px;font-style:italic"><span id="s3b">tue pas.</span></span>
+ </div>
+
+ <!-- S4 xG -->
+ <div class="l" id="s4" style="top:430px">
+   <div class="mono pad">Expected goals créés</div>
+   <div class="serif pad" style="font-size:430px;margin-top:20px" id="s4n">0,0</div>
+   <svg id="arcs" viewBox="0 0 900 380" style="width:900px;margin:40px 90px 0;display:block"></svg>
+   <div class="pad" style="margin-top:60px">
+     <div class="mask serif" style="font-size:150px"><span id="s4a">10 buts.</span></div>
+     <div class="mask serif gold" style="font-size:96px;font-style:italic;margin-top:10px"><span id="s4b">4 buts laissés en route.</span></div>
+   </div>
+ </div>
+
+ <!-- S5 cards -->
+ <div id="cards"></div>
+
+ <!-- S6 Sans ballon -->
+ <div class="l pad" id="s6" style="top:720px">
+   <span class="mask serif" style="font-size:210px"><span id="s6a">Sans ballon,</span></span>
+   <span class="mask serif gold" style="font-size:210px;font-style:italic"><span id="s6b">on presse.</span></span>
+ </div>
+ <div id="stats"></div>
+
+ <!-- S7 second ballon -->
+ <div class="l" id="s7" style="top:600px">
+   <div class="mono pad">Seconds ballons gagnés</div>
+   <div class="serif pad" style="font-size:420px;margin-top:30px" id="s7n">0<small style="font-size:170px;color:var(--gold)"> %</small></div>
+   <div class="track" style="margin-top:90px"><div class="fillb" id="s7f"></div><div class="tgt" id="s7t" style="left:50%"></div></div>
+   <div class="pad" style="margin-top:80px;display:flex;justify-content:space-between">
+     <div class="mono" id="s7l">Moyenne 6 matchs</div><div class="mono" id="s7o" style="color:var(--cream)">Objectif · 50 %</div>
+   </div>
+ </div>
+
+ <!-- S8 priorités -->
+ <div class="l pad" id="s8" style="top:470px">
+   <div class="mono" id="s8k" style="margin-bottom:60px">Priorités</div>
+   <div class="mono gold" id="s8n1" style="color:var(--gold)">01</div>
+   <span class="mask serif" style="font-size:170px;margin-top:10px"><span id="s8a">Placer</span></span><span class="mask serif" style="font-size:170px"><span id="s8e">la frappe.</span></span>
+   <div style="height:90px"></div>
+   <div class="mono gold" id="s8n2" style="color:var(--gold)">02</div>
+   <span class="mask serif" style="font-size:170px;margin-top:10px"><span id="s8b">Gagner la zone</span></span>
+   <span class="mask serif gold" style="font-size:170px;font-style:italic"><span id="s8c">de chute.</span></span>
+ </div>
+
+ <!-- S9 end -->
+ <div class="l c" id="s9" style="top:520px">
+   <svg id="crest" width="300" height="300" viewBox="0 0 300 300" style="display:block;margin:0 auto">
+     <circle id="ring" cx="150" cy="150" r="140" fill="none" stroke="#C9A15E" stroke-width="2.5"/>
+     <text x="150" y="172" text-anchor="middle" font-family="IS" font-size="78" fill="#F3EEE3" letter-spacing="2">GDR</text>
+   </svg>
+   <div style="margin-top:110px">
+     <span class="mask serif" style="font-size:150px"><span id="s9a">On domine.</span></span>
+     <span class="mask serif gold" style="font-size:150px;font-style:italic"><span id="s9b">Maintenant,</span></span><span class="mask serif gold" style="font-size:150px;font-style:italic"><span id="s9d">on finit.</span></span>
+   </div>
+   <div class="mono" id="s9c" style="margin-top:110px;color:var(--cream);font-size:30px">ES Grau-du-Roi · Seniors R1</div>
+ </div>
+</div>
+<canvas id="grain" width="540" height="960"></canvas>
+<div id="vig"></div>
+<div id="bars" style="top:0"></div><div id="bars2" style="position:absolute;left:0;right:0;bottom:0;height:0;background:#000"></div>
+<div id="flash"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const cl=x=>Math.max(0,Math.min(1,x));
+const pr=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,4);
+const ex=x=>x>=1?1:1-Math.pow(2,-10*x);
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const vis=(t,a,b,fi=.35,fo=.35)=>Math.min(pr(t,a,a+fi),1-pr(t,b-fo,b));
+const fr=(x,n=1)=>x.toFixed(n).replace('.',',');
+function reveal(el,t,a,d=.7){const k=ex(pr(t,a,a+d));el.style.transform=`translateY(${(1-k)*105}%)`;}
+function show(el,o,y=0,s=1){el.style.opacity=o;el.style.transform=`translateY(${y}px) scale(${s})`;}
+
+// match cards
+const M=[["05/09 · Ext.","Revel","1","0","V"],["19/09 · Dom.","ESCM","3","1","V"],["03/10 · Ext.","Cugnaux","0","0","N"],["17/10 · Dom.","Béziers","2","1","V"],["01/11 · Ext.","USSA","2","3","D"],["11/11 · Ext.","Frontignan","2","1","V"]];
+$('cards').innerHTML=M.map((m,i)=>`<div class="l card pad" id="cd${i}" style="top:560px">
+ <div style="display:flex;justify-content:space-between;align-items:center"><div class="mono">${m[0]}</div><div class="mono" style="color:var(--gold)">0${i+1} / 06</div></div>
+ <div class="team" style="margin-top:70px">${m[1]}</div>
+ <div class="score" style="margin-top:40px">${m[2]}<i>–</i>${m[3]}</div>
+ <div style="margin-top:70px"><span class="res ${m[4]}">${m[4]}</span></div></div>`).join('');
+const ST=[["Possession","65","%"],["PPDA approché","4,1",""],["Pertes récupérées en 8 s","49","%"]];
+$('stats').innerHTML=ST.map((s,i)=>`<div class="l stat pad" id="st${i}" style="top:640px"><div class="mono">${s[0]}</div><div class="n" style="margin-top:40px">${s[1]}<small> ${s[2]}</small></div></div>`).join('');
+
+// arcs
+let a='<line x1="0" y1="330" x2="900" y2="330" stroke="rgba(243,238,227,.25)" stroke-width="1.5"/>';
+for(let x=0;x<=900;x+=30)a+=`<line x1="${x}" y1="324" x2="${x}" y2="336" stroke="rgba(243,238,227,.18)"/>`;
+a+='<rect id="zone" x="610" y="250" width="270" height="80" fill="none" stroke="#C9A15E" stroke-width="2"/>';
+for(let i=0;i<10;i++){const h=40+i*14,e=745+(i-5)*9;a+=`<path class="arc" d="M30 330 Q ${400+i*8} ${h-60} ${e} 290" fill="none" stroke="#F3EEE3" stroke-opacity="${.2+i*.07}" stroke-width="2"/>`}
+a+='<circle cx="30" cy="330" r="7" fill="#F3EEE3"/><circle id="tgt" cx="745" cy="290" r="11" fill="none" stroke="#C9A15E" stroke-width="2.5"/><text x="745" y="370" text-anchor="middle" font-family="JetBrains Mono" font-size="16" letter-spacing="4" fill="#C9A15E">ZONE DE CHUTE</text>';
+$('arcs').innerHTML=a;
+const arcs=[...document.querySelectorAll('.arc')];arcs.forEach(p=>{const L=p.getTotalLength();p.dataset.L=L;p.style.strokeDasharray=L});
+
+// grain
+const g=$('grain').getContext('2d');const img=g.createImageData(540,960);
+function grain(seed){let s=seed*2654435761>>>0;const d=img.data;for(let i=0;i<d.length;i+=4){s^=s<<13;s>>>=0;s^=s>>>17;s^=s<<5;s>>>=0;const v=s&255;d[i]=d[i+1]=d[i+2]=v;d[i+3]=255}g.putImageData(img,0,0)}
+
+const ALL=['s1a','s1b','s2','s3','s4','s6','s7','s8','s9',...M.map((_,i)=>'cd'+i),...ST.map((_,i)=>'st'+i)];
+const CUTS=[3,5.5,8.5,13,13.6,14.2,14.8,15.4,16,17,18.5,19.3,20.1,21,24.5,28];
+
+window.render=function(t,frame){
+ ALL.forEach(id=>$(id).style.opacity=0);
+ // global push + glow drift
+ $('stage').style.transform=`scale(${1.0+0.035*((t%4)/4)*0+0.02*Math.sin(t*.4)})`;
+ $('glow').style.transform=`translate(${Math.sin(t*.35)*180}px,${Math.cos(t*.27)*260}px)`;
+ // letterbox open
+ const lb=(1-eio(pr(t,0,1.6)))*960 + eio(pr(t,31,32))*960;
+ $('bars').style.height=lb+'px';$('bars2').style.height=lb+'px';
+ // flash on cuts
+ let fl=0;for(const c of CUTS){const d=t-c;if(d>=0&&d<.18)fl=Math.max(fl,(c>=13&&c<17?.22:.12)*(1-d/.18));}
+ $('flash').style.opacity=fl;
+
+ // S1
+ let o=vis(t,.4,3.0,.8,.4);
+ show($('s1a'),o,0,1);$('s1t').style.letterSpacing=(0.8-0.5*eo(pr(t,.4,2.6)))+'em';
+ $('s1h').style.width=(900*eio(pr(t,.6,1.9)))+'px';$('s1h').style.opacity=vis(t,.6,3.0,.1,.4);
+ show($('s1b'),vis(t,1.2,3.0,.6,.4),20*(1-eo(pr(t,1.2,2))));
+
+ // S2
+ o=vis(t,3.0,5.5,.05,.25);show($('s2'),o,0,1+.04*pr(t,3,5.5));reveal($('s2w'),t,3.0,.8);
+ $('s2k').style.opacity=pr(t,3.6,4.1);
+ // S3
+ o=vis(t,5.5,8.5,.05,.3);show($('s3'),o,0,1+.05*pr(t,5.5,8.5));reveal($('s3a'),t,5.5,.6);reveal($('s3b'),t,6.5,.6);
+ // S4
+ o=vis(t,8.5,13,.15,.25);show($('s4'),o,0,1);
+ const k=eio(pr(t,8.7,10.6));$('s4n').textContent=fr(14.3*k);
+ arcs.forEach((p,i)=>{const q=eo(pr(t,8.9+i*.12,9.9+i*.12));p.style.strokeDashoffset=p.dataset.L*(1-q)});
+ $('zone').style.opacity=pr(t,10.2,10.6);
+ $('tgt').setAttribute('r',11+6*Math.sin(t*6)*pr(t,10.4,10.6));
+ reveal($('s4a'),t,11.0,.6);reveal($('s4b'),t,11.8,.7);
+ // S5 cards
+ M.forEach((m,i)=>{const a=13+i*.6,b=a+.6+(i==5?.4:0);const on=t>=a&&t<b;const e=$('cd'+i);
+   e.style.opacity=on?1:0;e.style.transform=`scale(${1.06-0.06*eo(pr(t,a,a+.35))})`;});
+ // S6
+ o=vis(t,17,18.5,.05,.12);show($('s6'),o);reveal($('s6a'),t,17,.55);reveal($('s6b'),t,17.5,.55);
+ [18.5,19.3,20.1].forEach((a,i)=>{const b=i<2?a+.8:21;const e=$('st'+i);e.style.opacity=(t>=a&&t<b)?vis(t,a,b,.08,.1):0;e.style.transform=`scale(${1.08-0.08*eo(pr(t,a,a+.5))})`});
+ // S7
+ o=vis(t,21,24.5,.1,.3);show($('s7'),o);
+ const k7=eio(pr(t,21.2,22.6));$('s7n').firstChild.textContent=Math.round(36*k7);
+ $('s7f').style.width=(36*k7)+'%';$('s7t').style.opacity=pr(t,22.8,23.1);$('s7o').style.opacity=pr(t,23,23.4);
+ $('s7f').style.background=t>23.2?'#C9A15E':'#F3EEE3';
+ // S8
+ o=vis(t,24.5,28,.1,.25);show($('s8'),o);
+ $('s8k').style.opacity=pr(t,24.5,24.9);$('s8n1').style.opacity=pr(t,24.6,24.9);$('s8n2').style.opacity=pr(t,26.2,26.5);
+ reveal($('s8a'),t,24.7,.6);reveal($('s8e'),t,25.0,.6);reveal($('s8b'),t,26.2,.6);reveal($('s8c'),t,26.6,.6);
+ // S9
+ o=vis(t,28,32,.05,.6);show($('s9'),o,0,1+.03*pr(t,28,32));
+ const ring=$('ring');const RL=2*Math.PI*140;ring.style.strokeDasharray=RL;ring.style.strokeDashoffset=RL*(1-eio(pr(t,28,29.4)));
+ $('crest').style.opacity=pr(t,28,28.4);
+ reveal($('s9a'),t,28.6,.7);reveal($('s9b'),t,29.3,.7);reveal($('s9d'),t,29.6,.7);$('s9c').style.opacity=pr(t,30,30.6);
+
+ grain(frame+1);
+};
+</script>
+</body></html>

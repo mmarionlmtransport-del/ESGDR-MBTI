@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>ESGDR analyse R1</title>
+<style>
+@font-face{font-family:"IS";src:url(../fonts/IS-Regular.woff2) format("woff2");font-style:normal}
+@font-face{font-family:"IS";src:url(../fonts/IS-Italic.woff2) format("woff2");font-style:italic}
+@page{size:A4;margin:0}
+:root{--bg:#F5F1E8;--navy:#14213D;--gold:#B8862F;--goldbar:#C9A15E;--goldpale:#DCC497;--grey:#7A808A;--rule:#D8D0BD;--muted:#5B6270}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--navy);font-family:Inter,sans-serif}
+.page{width:210mm;height:297mm;padding:22mm 18mm 16mm;position:relative;page-break-after:always;overflow:hidden;background:var(--bg)}
+.page:last-child{page-break-after:auto}
+.mono{font-family:"JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;font-size:7.6pt;color:var(--muted)}
+.head{display:flex;justify-content:space-between;padding-bottom:9px;border-bottom:1.5px solid var(--navy)}
+h1{font-family:IS;font-weight:400;font-size:62pt;line-height:.98;margin-top:26px;letter-spacing:-.01em}
+h1 em{color:var(--gold)}
+.sub{font-size:10.5pt;color:#3d4556;margin-top:12px}
+.matches{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:22px}
+.m{border-top:1.5px solid var(--navy);padding-top:7px;position:relative}
+.m .mono{font-size:6.6pt;letter-spacing:.08em}
+.m b{display:block;font-size:10pt;margin-top:3px}
+.m .sc{font-family:IS;font-size:28pt;line-height:1.05}
+.m .sc span{color:var(--grey);font-size:20pt;padding:0 2px}
+.bd{position:absolute;right:0;top:6px;width:17px;height:17px;border-radius:50%;font:600 6.8pt Inter;display:flex;align-items:center;justify-content:center}
+.V{background:var(--navy);color:#fff}.N{border:1px solid var(--navy)}.D{border:1px solid var(--gold);color:var(--gold)}
+.xg{display:grid;grid-template-columns:1fr 1fr;margin-top:28px;padding-bottom:16px;border-bottom:1px solid var(--rule)}
+.big{font-family:IS;font-size:62pt;line-height:1;margin-top:10px}
+.big .sl{color:var(--rule);font-size:30pt;padding:0 6px}.big .g{color:var(--gold)}
+.leg{font-size:7.6pt;color:var(--muted);margin-top:8px;font-family:"JetBrains Mono"}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);row-gap:18px;margin-top:16px;padding-bottom:16px;border-bottom:1px solid var(--rule)}
+.kpi .v{font-family:IS;font-size:34pt;line-height:1.15;margin-top:4px}
+.kpi .v small{font-size:17pt;color:var(--grey)}
+.kpi .s{font-family:"JetBrains Mono";font-size:6.8pt;letter-spacing:.2em;color:var(--muted)}
+.bars{margin-top:16px}
+.row{display:grid;grid-template-columns:82px 40px 1fr 2px 1fr;align-items:center;height:30px;font-size:8pt}
+.row .t{font-weight:600}.row .r{font-family:"JetBrains Mono";font-size:7.5pt}
+.side{white-space:nowrap;display:flex;align-items:center;gap:6px;height:100%;font-family:"JetBrains Mono";font-size:7pt;color:#3d4556}
+.L{justify-content:flex-end}.bar{height:18px}
+.axis{background:var(--navy);height:100%}
+.foot{position:absolute;left:18mm;right:18mm;bottom:12mm;border-top:1px solid var(--rule);padding-top:8px;display:flex;justify-content:space-between}
+.foot .mono{color:#b5ae9e;font-size:6.8pt}
+/* page 2 */
+h2{font-family:IS;font-weight:400;font-size:46pt;margin-top:20px;line-height:1}
+h2 em{color:var(--gold)}
+.charts{display:grid;grid-template-columns:1fr 1fr;column-gap:40px;row-gap:16px;margin-top:18px}
+.ch h4{font-size:8pt;font-weight:700;margin-bottom:6px}
+.lr{display:grid;grid-template-columns:62px 1fr 52px;align-items:center;height:18px;font-size:6.6pt;color:var(--muted)}
+.track{position:relative;height:100%}
+.track .base{position:absolute;left:0;right:0;top:50%;height:1px;background:#c9ccd3}
+.track .fill{position:absolute;left:0;top:50%;height:1.5px;background:var(--navy);transform:translateY(-.25px)}
+.track .pt{position:absolute;top:50%;width:8px;height:8px;border-radius:50%;background:var(--navy);transform:translate(-50%,-50%)}
+.track .pt.hl{background:var(--gold)}
+.avg{position:absolute;top:-4px;bottom:-4px;border-left:1px dashed var(--gold)}
+.lr .val{font-family:"JetBrains Mono";text-align:right;color:var(--navy);font-size:7pt}
+.sec{margin-top:16px;border-top:1px solid var(--rule);padding-top:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;column-gap:40px;row-gap:10px;margin-top:8px}
+.c{border-left:2px solid var(--gold);padding-left:12px}
+.c h5{font-family:IS;font-weight:400;font-size:17pt;line-height:1.1}
+.c p{font-size:8.4pt;color:#3d4556;line-height:1.4;margin-top:3px}
+.note{font-family:"JetBrains Mono";font-size:6.6pt;color:var(--muted);margin-top:10px;letter-spacing:.04em}
+</style>
+</head>
+<body>
+
+<section class="page">
+  <div class="head"><span class="mono">ES Grau-du-Roi · Seniors R1</span><span class="mono">Analyse · 6 matchs de championnat · 2026-2027</span></div>
+  <h1>On domine.<br><em>On ne tue pas.</em></h1>
+  <p class="sub">14,3 xG créés pour 10 buts. 4,7 xG concédés pour 6 buts.</p>
+
+  <div class="matches" id="matches"></div>
+
+  <div class="xg">
+    <div>
+      <div class="mono">Expected goals · nous / eux</div>
+      <div class="big">14,3<span class="sl">/</span><span class="g">4,7</span></div>
+      <div class="leg"><span class="dot" style="background:var(--navy)"></span>xG créés · 10 buts &nbsp;&nbsp; <span class="dot" style="background:var(--gold)"></span>xG concédés · 6 buts</div>
+    </div>
+    <svg viewBox="0 0 340 110" style="width:100%;margin-top:14px" id="arc"></svg>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="mono">Points</div><div class="v">13</div><div class="s">4 V · 1 N · 1 D</div></div>
+    <div class="kpi"><div class="mono">Buts</div><div class="v">10 <small>/ 6</small></div></div>
+    <div class="kpi"><div class="mono">Possession</div><div class="v">65 <small>%</small></div></div>
+    <div class="kpi"><div class="mono">Passes réussies</div><div class="v">74 <small>%</small></div></div>
+    <div class="kpi"><div class="mono">Tirs · nous / eux</div><div class="v">14,5 <small>/ 6,3</small></div><div class="s">par match</div></div>
+    <div class="kpi"><div class="mono">xG par tir</div><div class="v">0,16</div></div>
+    <div class="kpi"><div class="mono">PPDA approché</div><div class="v">4,1</div></div>
+    <div class="kpi"><div class="mono">Distance équipe</div><div class="v">108,3 <small>km</small></div><div class="s">par match</div></div>
+  </div>
+
+  <div class="bars">
+    <div class="mono" style="margin-bottom:8px">xG par match · eux ← → nous</div>
+    <div id="bars"></div>
+    <p class="note">≈ USSA : données approximatives (barres grisées).</p>
+  </div>
+  <div class="foot"><span></span><span class="mono">01 / 02</span></div>
+</section>
+
+<section class="page">
+  <div class="head"><span class="mono">ES Grau-du-Roi · Seniors R1</span><span class="mono">Match par match</span></div>
+  <h2>Sans ballon, <em>on presse.</em></h2>
+  <p class="sub">Contre-pressing efficace. Le second ballon reste à prendre.</p>
+  <div class="charts" id="charts"></div>
+
+  <div class="sec">
+    <div class="mono">Constats</div>
+    <div class="grid2">
+      <div class="c"><h5>Finition</h5><p>10 buts pour 14,3 xG, soit plus de 4 buts laissés en route. Cugnaux (2,8 xG, 0 but) et l’USSA (3,3 xG, défaite 2-3) coûtent le plus. À Frontignan, 2 buts pour 1,6 xG.</p></div>
+      <div class="c"><h5>Défense</h5><p>4,7 xG concédés en 6 matchs. Contre l’USSA, 5 tirs adverses, dont 3 dans nos 6 m, ont donné 3 buts.</p></div>
+      <div class="c"><h5>Contre-pressing</h5><p>49 % des pertes récupérées en moins de 8 s en moyenne. Hauteur moyenne de récupération : 39,6 m de notre but (46 m face à l’USSA).</p></div>
+      <div class="c"><h5>Second ballon</h5><p>36 % en moyenne, 21 % seulement à Frontignan. L’adversaire dégage sous notre pression et garde la suite près de 2 fois sur 3.</p></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="mono">Priorités</div>
+    <div class="grid2">
+      <div class="c"><h5>Placer la frappe</h5><p>Tir en 1-2 touches dans la surface, centre en retrait, un joueur qui suit chaque frappe.</p></div>
+      <div class="c"><h5>Gagner la zone de chute</h5><p>Sentinelle sous la trajectoire, centraux qui montent d’un pas, 1re passe vers l’avant. Objectif : 50 %.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="mono" style="letter-spacing:.06em">Ligne pointillée : moyenne des 6 matchs</span><span class="mono">02 / 02</span></div>
+</section>
+
+<script>
+const M=[
+ {d:"05/09 · Ext.",t:"Revel",s:[1,0],r:"V",xg:2.1,xga:0.2},
+ {d:"19/09 · Dom.",t:"ESCM",s:[3,1],r:"V",xg:1.4,xga:0.6},
+ {d:"03/10 · Ext.",t:"Cugnaux",s:[0,0],r:"N",xg:2.8,xga:0.8},
+ {d:"17/10 · Dom.",t:"Béziers",s:[2,1],r:"V",xg:3.1,xga:0.6},
+ {d:"01/11 · Ext.",t:"USSA ≈",s:[2,3],r:"D",xg:3.3,xga:1.7,approx:1},
+ {d:"11/11 · Ext.",t:"Frontignan",s:[2,1],r:"V",xg:1.6,xga:0.8}];
+const f=(x,n=1)=>x.toFixed(n).replace('.',',');
+document.getElementById('matches').innerHTML=M.map(m=>`<div class="m"><div class="mono">${m.d}</div><span class="bd ${m.r}">${m.r}</span><b>${m.t}</b><div class="sc">${m.s[0]}<span>–</span>${m.s[1]}</div></div>`).join('');
+const sc=52; // px per xG
+const but=n=>n+(n>1?' buts':' but');
+document.getElementById('bars').innerHTML=M.map(m=>`<div class="row"><span class="t">${m.t}</span><span class="r">${m.s[0]}-${m.s[1]}</span>
+ <div class="side L">${but(m.s[1])} · ${f(m.xga)} xG<div class="bar" style="width:${m.xga*sc}px;background:${m.approx?'var(--goldpale)':'var(--goldbar)'}"></div></div>
+ <div class="axis"></div>
+ <div class="side"><div class="bar" style="width:${m.xg*sc}px;background:${m.approx?'#7d828c':'var(--navy)'}"></div>${f(m.xg)} xG · ${but(m.s[0])}</div></div>`).join('');
+// arc
+let a='<line x1="10" y1="92" x2="335" y2="92" stroke="#b9b3a3" stroke-width=".8"/>';
+for(let x=10;x<=335;x+=10)a+=`<line x1="${x}" y1="90" x2="${x}" y2="94" stroke="#c9c3b3" stroke-width=".5"/>`;
+a+='<rect x="235" y="68" width="98" height="24" fill="none" stroke="#B8862F" stroke-width="1"/>';
+for(let i=0;i<9;i++){const h=10+i*4.5,ex=290+(i-4)*4;a+=`<path d="M22 92 Q ${150+i*3} ${h-12} ${ex} 82" fill="none" stroke="${i>5?'#14213D':'#14213D'}" stroke-opacity="${0.25+i*0.08}" stroke-width=".9"/>`}
+a+='<circle cx="22" cy="92" r="2.5" fill="#14213D"/><circle cx="291" cy="82" r="3.5" fill="none" stroke="#B8862F" stroke-width="1"/><text x="284" y="104" text-anchor="middle" font-family="JetBrains Mono" font-size="5.5" letter-spacing="1.2" fill="#B8862F">ZONE DE CHUTE</text>';
+document.getElementById('arc').innerHTML=a;
+// charts
+const T=["Revel","ESCM","Cugnaux","Béziers","USSA","Frontignan"];
+const C=[
+ {h:"Possession",v:[70,49,65,70,68,66],u:" %",max:80,n:0},
+ {h:"PPDA approché (bas = on presse)",v:[3.2,5.4,4.1,3.2,3.8,4.7],u:"",max:6,n:1},
+ {h:"Hauteur de récupération (m)",v:[37.5,38.4,35.1,39.3,46.0,41.5],u:" m",max:55,n:1,hl:4},
+ {h:"Pertes récupérées en 8 s",v:[50,42,58,50,48,44],u:" %",max:75,n:0},
+ {h:"Seconds ballons gagnés",v:[43,28,33,42,47,21],u:" %",max:60,n:0},
+ {h:"Distance équipe (km)",v:[105.0,111.9,115.4,101.9,109.0,106.6],u:"",max:120,min:80,n:1}];
+document.getElementById('charts').innerHTML=C.map(c=>{const mn=c.min||0,p=x=>(x-mn)/(c.max-mn)*100;const av=c.v.reduce((a,b)=>a+b)/6;
+ return `<div class="ch"><h4>${c.h}</h4>`+c.v.map((x,i)=>`<div class="lr"><span>${T[i]}</span><div class="track"><div class="base"></div><div class="fill" style="width:${p(x)}%"></div><div class="avg" style="left:${p(av)}%"></div><div class="pt ${c.hl===i?'hl':''}" style="left:${p(x)}%"></div></div><span class="val">${f(x,c.n)}${c.u}</span></div>`).join('')+`</div>`}).join('');
+</script>
+</body>
+</html>
