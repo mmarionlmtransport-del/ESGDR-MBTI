@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Carrousel contre-pressing — ESGDR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0c1830;--navy-2:#14213d;--night:#060b18;
+  --gold:#c9a227;--gold-light:#e8c861;--paper:#f3ede0;
+  --green:#7ecf90;--red:#f08080;
+  --line:rgba(232,200,97,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#222;display:flex;flex-direction:column;align-items:center;gap:40px;padding:40px 0;font-family:'Inter',sans-serif}
+.slide{width:1080px;height:1350px;position:relative;overflow:hidden;color:var(--paper);
+  background:radial-gradient(120% 90% at 85% 0%,var(--navy-2) 0%,var(--navy) 55%,var(--night) 100%);
+  padding:150px 80px 150px;display:flex;flex-direction:column}
+.slide::before{content:"";position:absolute;inset:40px;border:1.5px solid var(--line);pointer-events:none}
+.num{position:absolute;top:70px;right:80px;font:600 26px 'Oswald';letter-spacing:.12em;color:var(--gold)}
+.num b{color:var(--paper);font-weight:600}
+.brand{position:absolute;bottom:70px;right:80px;font:700 30px 'Oswald';letter-spacing:.22em;color:var(--gold)}
+.tag{position:absolute;top:70px;left:80px;font:600 22px 'Inter';letter-spacing:.16em;text-transform:uppercase;color:var(--gold-light);opacity:.85}
+.next{position:absolute;bottom:66px;left:80px;font:500 24px 'Inter';color:rgba(243,237,224,.55);letter-spacing:.04em}
+.next span{color:var(--gold);font-size:30px;vertical-align:-2px;margin-left:8px}
+h1,h2{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.02em;line-height:1.02}
+h2{font-size:84px;font-weight:700;color:var(--paper);margin-bottom:28px}
+h2 em{font-style:normal;color:var(--gold)}
+.rule{width:120px;height:4px;background:var(--gold);margin:6px 0 48px}
+p,li{font-size:38px;line-height:1.38;font-weight:500;color:rgba(243,237,224,.92)}
+strong{color:var(--gold-light);font-weight:700}
+
+/* Slide 1 */
+.s1{justify-content:center}
+.s1 .big5{position:absolute;right:-140px;top:150px;font:700 1150px/1 'Oswald';color:transparent;-webkit-text-stroke:3px rgba(201,162,39,.32)}
+.s1 h1{font-size:156px;font-weight:700;position:relative;z-index:1}
+.s1 h1 .q{display:block;color:var(--paper)}
+.s1 h1 .a{display:block;color:var(--gold)}
+.s1 .sub{position:relative;z-index:1;margin-top:46px;font:600 40px 'Inter';color:var(--paper);display:flex;align-items:center;gap:22px}
+.s1 .sub::before{content:"";width:70px;height:4px;background:var(--gold)}
+.chrono{position:relative;z-index:1;margin-top:70px;display:flex;gap:16px}
+.chrono i{width:110px;height:14px;border-radius:7px;background:var(--gold)}
+.chrono i:nth-child(n+4){background:rgba(201,162,39,.35)}
+
+/* Slide 2 */
+.s2 p{font-size:46px;margin-bottom:38px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:70px}
+.fact{border:1.5px solid rgba(232,200,97,.4);border-radius:18px;padding:30px 24px;background:rgba(255,255,255,.03)}
+.fact b{display:block;font:700 40px 'Oswald';color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+.fact span{font-size:31px;line-height:1.35;color:rgba(243,237,224,.82)}
+
+/* Slide 3 */
+.steps{display:flex;flex-direction:column;gap:64px;margin-top:30px}
+.step{display:flex;gap:36px;align-items:flex-start}
+.step .n{flex:none;width:110px;height:110px;border-radius:50%;background:var(--gold);color:var(--navy);font:700 60px/110px 'Oswald';text-align:center}
+.step p{font-size:48px;padding-top:8px}
+
+/* Slide 4 */
+.s4{padding-top:140px}
+.s4 h2{margin-bottom:10px}
+.s4 .lead{font-size:32px;color:rgba(243,237,224,.8);margin-bottom:24px}
+.pitch{width:100%;flex:1;min-height:0}
+.legend{display:flex;flex-wrap:wrap;gap:16px 34px;font-size:24px;color:rgba(243,237,224,.85);margin-top:18px}
+.legend span{display:flex;align-items:center;gap:12px}
+.dot{width:26px;height:26px;border-radius:50%;display:inline-block}
+
+/* Slide 5 */
+.choice{border-radius:22px;padding:40px 44px;margin-bottom:30px;border:2px solid}
+.choice.go{border-color:rgba(126,207,144,.6);background:rgba(80,180,100,.1)}
+.choice.back{border-color:rgba(232,200,97,.5);background:rgba(201,162,39,.08)}
+.choice h3{font:700 46px 'Oswald';text-transform:uppercase;margin-bottom:12px}
+.choice.go h3{color:var(--green)}
+.choice.back h3{color:var(--gold-light)}
+.choice p{font-size:36px}
+.note{margin-top:auto;font-size:30px;color:rgba(243,237,224,.7);border-left:4px solid var(--gold);padding-left:24px}
+
+/* Slide 6 */
+.vs{display:flex;flex-direction:column;gap:34px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cell{border-radius:18px;padding:38px 30px;font-size:36px;line-height:1.32;font-weight:500;display:flex;gap:16px}
+.cell .ic{flex:none;font:700 36px/1.1 'Oswald'}
+.bad{background:rgba(220,80,80,.1);border:1.5px solid rgba(220,80,80,.45);color:#f6c5c5}
+.bad .ic{color:var(--red)}
+.good{background:rgba(80,180,100,.1);border:1.5px solid rgba(80,180,100,.45);color:#cdeed5}
+.good .ic{color:var(--green)}
+.heads{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:-6px}
+.heads div{font:700 32px 'Oswald';letter-spacing:.08em;text-transform:uppercase}
+
+/* Slide 7 */
+.pills{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:46px}
+.pill{border:1.5px solid var(--gold);color:var(--gold-light);border-radius:999px;padding:12px 28px;font:600 30px 'Inter'}
+.card{border:1.5px solid rgba(232,200,97,.4);border-radius:22px;padding:44px;background:rgba(255,255,255,.03)}
+.card li{list-style:none;padding-left:52px;position:relative;margin-bottom:36px;font-size:42px}
+.card li::before{content:"";position:absolute;left:0;top:18px;width:22px;height:22px;border-radius:50%;background:var(--gold)}
+.card li:last-child{margin-bottom:0}
+
+/* Slide 8 — variante claire */
+.s8{background:var(--paper);color:var(--navy)}
+.s8::before{border-color:rgba(12,24,48,.15)}
+.s8 h2{color:var(--navy)}
+.s8 .num b{color:var(--navy)}
+.s8 .next{color:rgba(12,24,48,.55)}
+.s8 .tag{color:#9a7a14}
+.flow{display:flex;flex-direction:column;gap:40px;margin-top:30px}
+.flow div{font:700 76px/1.1 'Oswald';text-transform:uppercase;display:flex;align-items:center;gap:28px}
+.flow div i{font-style:normal;font:700 38px 'Oswald';width:80px;height:80px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;flex:none}
+.flow .end{color:#9a7a14}
+
+/* Slide 9 */
+.s9{justify-content:center;align-items:flex-start}
+.s9 .icon{width:150px;height:190px;border:6px solid var(--gold);border-bottom:none;position:relative;margin-bottom:70px}
+.s9 .icon::after{content:"";position:absolute;left:-6px;right:-6px;bottom:-1px;height:80px;background:linear-gradient(to bottom right,transparent 49%,var(--gold) 49.5%,var(--gold) 52%,transparent 52.5%),linear-gradient(to bottom left,transparent 49%,var(--gold) 49.5%,var(--gold) 52%,transparent 52.5%);background-size:50% 100%;background-position:left,right;background-repeat:no-repeat}
+.s9 h2{font-size:112px}
+.s9 .sub{font:600 34px 'Inter';color:var(--gold-light);margin-top:30px;letter-spacing:.04em}
+</style>
+</head>
+<body>
+
+<!-- 1 -->
+<section class="slide s1" id="s1">
+  <div class="big5">5</div>
+  <div class="num"><b>01</b>/09</div>
+  <h1><span class="q">Tu perds<br>le ballon ?</span><span class="a">T'as 5<br>secondes.</span></h1>
+  <div class="sub">Le contre-pressing, expliqué simplement</div>
+  <div class="chrono"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="next">Glisse<span>→</span></div>
+  <div class="brand">ESGDR</div>
+</section>
+
+<!-- 2 -->
+<section class="slide s2" id="s2">
+  <div class="tag">Pourquoi à la perte</div>
+  <div class="num"><b>02</b>/09</div>
+  <h2>Le meilleur moment pour <em>récupérer</em></h2>
+  <div class="rule"></div>
+  <p>À la perte, l'adversaire <strong>n'est pas encore organisé</strong>.</p>
+  <p>Il vient de récupérer, il a la tête baissée, ses joueurs sont encore proches du ballon. Et toi, tu es <strong>déjà près de son but</strong>.</p>
+  <div class="facts">
+    <div class="fact"><b>Tête baissée</b><span>Le porteur n'a pas encore vu le jeu</span></div>
+    <div class="fact"><b>Bloc serré</b><span>Ses partenaires ne sont pas écartés</span></div>
+    <div class="fact"><b>But proche</b><span>Récupérer haut = occasion directe</span></div>
+  </div>
+  <div class="next">Les réflexes<span>→</span></div>
+  <div class="brand">ESGDR</div>
+</section>
+
+<!-- 3 -->
+<section class="slide s3" id="s3">
+  <div class="tag">Le principe</div>
+  <div class="num"><b>03</b>/09</div>
+  <h2>3 réflexes <em>à la perte</em></h2>
+  <div class="rule"></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><p><strong>Le plus proche presse</strong> le porteur tout de suite et ferme la passe vers l'avant.</p></div>
+    <div class="step"><div class="n">2</div><p><strong>Les deux suivants</strong> ferment les passes courtes autour.</p></div>
+    <div class="step"><div class="n">3</div><p><strong>Le bloc se resserre</strong> : personne ne reste à regarder.</p></div>
+  </div>
+  <div class="next">Le schéma<span>→</span></div>
+  <div class="brand">ESGDR</div>
+</section>
+
+<!-- 4 -->
+<section class="slide s4" id="s4">
+  <div class="tag">Schéma</div>
+  <div class="num"><b>04</b>/09</div>
+  <h2>La <em>cage</em></h2>
+  <p class="lead">3 joueurs encerclent le porteur, ses passes courtes sont coupées.</p>
+  <svg class="pitch" viewBox="0 0 920 760" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#f3ede0"/></marker>
+      <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#c9a227"/></marker>
+    </defs>
+    <!-- terrain (moitié offensive, but adverse en haut) -->
+    <rect x="10" y="10" width="900" height="740" rx="6" fill="rgba(255,255,255,.025)" stroke="#c9a227" stroke-width="3"/>
+    <rect x="230" y="10" width="460" height="170" fill="none" stroke="#c9a227" stroke-width="2.5"/>
+    <rect x="350" y="10" width="220" height="62" fill="none" stroke="#c9a227" stroke-width="2.5"/>
+    <path d="M370 180 A100 100 0 0 0 550 180" fill="none" stroke="#c9a227" stroke-width="2.5"/>
+    <line x1="10" y1="750" x2="910" y2="750" stroke="#c9a227" stroke-width="3"/>
+    <path d="M370 750 A90 90 0 0 1 550 750" fill="none" stroke="#c9a227" stroke-width="2.5"/>
+    <!-- zone de la cage -->
+    <circle cx="470" cy="400" r="150" fill="rgba(201,162,39,.08)" stroke="#c9a227" stroke-width="2" stroke-dasharray="10 10"/>
+    <!-- passes adverses coupées -->
+    <g stroke="#f08080" stroke-width="4" stroke-dasharray="12 10" fill="none" opacity=".9">
+      <line x1="470" y1="400" x2="230" y2="330"/>
+      <line x1="470" y1="400" x2="700" y2="320"/>
+      <line x1="470" y1="400" x2="470" y2="640"/>
+    </g>
+    <g stroke="#f08080" stroke-width="6" stroke-linecap="round">
+      <path d="M335 352 l26 26 M361 352 l-26 26"/>
+      <path d="M580 345 l26 26 M606 345 l-26 26"/>
+      <path d="M457 520 l26 26 M483 520 l-26 26"/>
+    </g>
+    <!-- adversaires (or) -->
+    <g fill="#c9a227" stroke="#060b18" stroke-width="3">
+      <circle cx="230" cy="330" r="24"/><circle cx="700" cy="320" r="24"/><circle cx="470" cy="640" r="24"/>
+      <circle cx="160" cy="560" r="24"/><circle cx="780" cy="580" r="24"/>
+    </g>
+    <!-- porteur adverse -->
+    <circle cx="470" cy="400" r="28" fill="#c9a227" stroke="#f3ede0" stroke-width="4"/>
+    <circle cx="500" cy="428" r="11" fill="#f3ede0"/>
+    <!-- ESGDR (papier) qui convergent -->
+    <g stroke="#f3ede0" stroke-width="5" fill="none" marker-end="url(#ar)">
+      <line x1="470" y1="250" x2="470" y2="352"/>
+      <line x1="330" y1="470" x2="417" y2="425"/>
+      <line x1="620" y1="470" x2="523" y2="425"/>
+    </g>
+    <g fill="#f3ede0" stroke="#060b18" stroke-width="3">
+      <circle cx="470" cy="230" r="24"/><circle cx="312" cy="480" r="24"/><circle cx="638" cy="480" r="24"/>
+    </g>
+    <g font-family="Oswald" font-weight="700" font-size="26" fill="#0c1830" text-anchor="middle">
+      <text x="470" y="239">1</text><text x="312" y="489">2</text><text x="638" y="489">3</text>
+    </g>
+    <!-- bloc qui remonte -->
+    <g fill="#f3ede0" stroke="#060b18" stroke-width="3">
+      <circle cx="250" cy="690" r="22"/><circle cx="470" cy="715" r="22"/><circle cx="690" cy="690" r="22"/>
+    </g>
+    <g stroke="#c9a227" stroke-width="4" fill="none" marker-end="url(#ag)" opacity=".85">
+      <line x1="250" y1="664" x2="275" y2="612"/><line x1="690" y1="664" x2="665" y2="612"/><line x1="440" y1="700" x2="400" y2="660"/>
+    </g>
+  </svg>
+  <div class="legend">
+    <span><i class="dot" style="background:#f3ede0"></i>Ton équipe</span>
+    <span><i class="dot" style="background:#c9a227"></i>Adversaire</span>
+    <span><b style="color:#f3ede0;font-size:30px">→</b>Pression</span>
+    <span><b style="color:#f08080;font-size:30px">- - ✕</b>Passe coupée</span>
+    <span><b style="color:#c9a227;font-size:30px">→</b>Le bloc remonte</span>
+  </div>
+  <div class="next">Le repère<span>→</span></div>
+  <div class="brand">ESGDR</div>
+</section>
+
+<!-- 5 -->
+<section class="slide s5" id="s5">
+  <div class="tag">Le repère</div>
+  <div class="num"><b>05</b>/09</div>
+  <h2>5 secondes, <em>puis on décide</em></h2>
+  <div class="rule"></div>
+  <div class="choice go"><h3>✓ Récupéré avant 5 s</h3><p><strong style="color:var(--green)">On attaque tout de suite</strong> : l'adversaire est encore ouvert.</p></div>
+  <div class="choice back"><h3>↩ Pas récupéré</h3><p>Ou ballon sorti de la zone : <strong>repli</strong>, on reforme le bloc.</p></div>
+  <p class="note">5 secondes, c'est un repère pour les joueurs, pas une loi.</p>
+  <div class="next">Les erreurs<span>→</span></div>
+  <div class="brand">ESGDR</div>
+</section>
+
+<!-- 6 -->
+<section class="slide s6" id="s6">
+  <div class="tag">Erreurs fréquentes</div>
+  <div class="num"><b>06</b>/09</div>
+  <h2>À éviter / <em>à faire</em></h2>
+  <div class="rule"></div>
+  <div class="vs">
+    <div class="heads"><div style="color:var(--red)">À éviter</div><div style="color:var(--green)">À faire</div></div>
+    <div class="row"><div class="cell bad"><span class="ic">✕</span>Se jeter seul sur le porteur</div><div class="cell good"><span class="ic">✓</span>Presser à 2 ou 3, ensemble</div></div>
+    <div class="row"><div class="cell bad"><span class="ic">✕</span>Râler ou lever les bras après la perte</div><div class="cell good"><span class="ic">✓</span>Réagir d'abord, débriefer après</div></div>
+    <div class="row"><div class="cell bad"><span class="ic">✕</span>Contre-presser avec une équipe étirée</div><div class="cell good"><span class="ic">✓</span>Seulement si les lignes sont proches</div></div>
+  </div>
+  <div class="next">L'exercice<span>→</span></div>
+  <div class="brand">ESGDR</div>
+</section>
+
+<!-- 7 -->
+<section class="slide s7" id="s7">
+  <div class="tag">À l'entraînement</div>
+  <div class="num"><b>07</b>/09</div>
+  <h2>L'exercice pour <em>l'installer</em></h2>
+  <div class="rule"></div>
+  <div class="pills"><span class="pill">5c5 + 2 appuis</span><span class="pill">30 × 25 m</span><span class="pill">4 × 4 min</span><span class="pill">Récup 2 min</span></div>
+  <ul class="card">
+    <li>Récupérer <strong>moins de 5 s</strong> après la perte = <strong>1 point bonus</strong>.</li>
+    <li>Le coach compte à voix haute : <span style="white-space:nowrap">« 1-2-3-4-5 »</span>.</li>
+    <li>Les 2 appuis jouent avec l'équipe en possession.</li>
+  </ul>
+  <div class="next">Le récap<span>→</span></div>
+  <div class="brand">ESGDR</div>
+</section>
+
+<!-- 8 -->
+<section class="slide s8" id="s8">
+  <div class="tag">Récap</div>
+  <div class="num"><b>08</b>/09</div>
+  <h2>En résumé</h2>
+  <div class="rule"></div>
+  <div class="flow">
+    <div><i>1</i>Perte</div>
+    <div><i>2</i>Réaction immédiate</div>
+    <div><i>3</i>La cage à 3</div>
+    <div><i>4</i>5 secondes</div>
+    <div class="end"><i>5</i>Attaque ou repli</div>
+  </div>
+  <div class="next">Glisse<span>→</span></div>
+  <div class="brand">ESGDR</div>
+</section>
+
+<!-- 9 -->
+<section class="slide s9" id="s9">
+  <div class="num"><b>09</b>/09</div>
+  <div class="icon"></div>
+  <h2>Enregistre-le pour ta <em>prochaine séance</em></h2>
+  <div class="sub">Méthodologie & entraînement · ESGDR</div>
+  <div class="brand">ESGDR</div>
+</section>
+
+</body>
+</html>
